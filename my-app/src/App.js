@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { MyComponent } from './MyComponent';
+import { MyForm } from './MyForm';
 
 export const App = () => {
 	let currentDate = new Date();
@@ -21,6 +22,8 @@ export const App = () => {
 				</a>
 				<p>{currentYear}</p>
 				<MyComponent />
+				<br></br>
+				<MyForm />
 			</header>
 		</div>
 	);
