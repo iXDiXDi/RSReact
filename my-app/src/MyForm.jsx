@@ -10,6 +10,28 @@ export const MyForm = () => {
 		password: '',
 		passwordRepeat: '',
 	});
+
+	const [loginError, setloginError] = useState(null);
+
+	const onLoginChange = ({ target }) => {
+		setformData(target.value);
+
+		let newError = null;
+
+		if (!/^[\w_]*$/.test(target.value)) {
+			newError = 'Ошибка в логине. Недопустимые символы';
+		} else if (target.value.length > 20) {
+			newError = 'Ошибка в логине. Слишком много букафф';
+		}
+		setloginError(newError);
+	};
+
+	const onLoginBlur = ({ target }) => {
+		if (target.value.length < 3) {
+			setloginError('Слишком мало - надо больше 3х');
+		}
+	};
+
 	const onSubmit = (event) => {
 		event.preventDefault();
 		sendFormData(formData);
@@ -21,17 +43,16 @@ export const MyForm = () => {
 			<div className="registrationForm">
 				<div>
 					<form onSubmit={onSubmit}>
+						{loginError && (
+							<div className={StyleSheet.errorLabel}>{loginError}</div>
+						)}
 						<input
 							name="login"
 							type="text"
 							placeholder="Логин"
 							value={login}
-							onChange={({ target }) =>
-								setformData({
-									...formData,
-									email: target.value,
-								})
-							}
+							onChange={onLoginChange}
+							onBlur={onLoginBlur}
 						></input>
 						<br></br>
 						<input
@@ -39,12 +60,8 @@ export const MyForm = () => {
 							type="password"
 							placeholder="Пароль"
 							value={password}
-							onChange={({ target }) =>
-								setformData({
-									...formData,
-									password: target.value,
-								})
-							}
+							onChange={onLoginChange}
+							onBlur={onLoginBlur}
 						></input>
 						<br></br>
 						<input
@@ -52,12 +69,8 @@ export const MyForm = () => {
 							type="password"
 							placeholder="Повторите пароль"
 							value={passwordRepeat}
-							onChange={({ target }) =>
-								setformData({
-									...formData,
-									passwordRepeat: target.value,
-								})
-							}
+							onChange={onLoginChange}
+							onBlur={onLoginBlur}
 						></input>
 						<br></br>
 						<button type="submit">Заслать</button>
